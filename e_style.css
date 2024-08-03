@@ -153,11 +153,10 @@ p {
 }
 
 .camera-ctn {
-    position: absolute;
     right: 0;
-    top: 60px; /* Adjust as needed */
-    width: 200px; /* Width of the video */
-    height: 150px; /* Height of the video */
+    top: 60px;
+    width: 250px;
+    height: 180px;
     overflow: hidden;
     background: #000;
     border-radius: 10px;
