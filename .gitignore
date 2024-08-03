@@ -2,3 +2,6 @@ torchscript_model_0_66_49_wo_gl.pth
 __pycache__/
 .env
 .flask_session/
+.DS_Store
+songs.json
+users.json
