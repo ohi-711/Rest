@@ -4,7 +4,7 @@ import inference
 
 app = FastAPI()
 
-detector = inference.RestDetector('/Users/greatj/Downloads/torchscript_model_0_66_49_wo_gl.pth')
+detector = inference.RestDetector('torchscript_model_0_66_49_wo_gl.pth')
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile):

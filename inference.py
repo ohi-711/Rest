@@ -23,9 +23,17 @@ class PreprocessInput(torch.nn.Module):
 
 class RestDetector:
     def __init__(self, model_path):
-        os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1'
+        if torch.backends.mps.is_available():
+            os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1'
+            self.torch_backend = "mps"
+        elif torch.cuda.is_available():
+            self.torch_backend = "cuda"
+        else:
+            self.torch_backend = "cpu"
+
         self.mp_face_mesh = mp.solutions.face_mesh
-        self.pth_model = torch.jit.load(model_path).to('mps')
+
+        self.pth_model = torch.jit.load(model_path).to(self.torch_backend)
         self.pth_model.eval()
         self.DICT_EMO = {0: 'Neutral', 1: 'Happiness', 2: 'Sadness', 3: 'Surprise', 4: 'Fear', 5: 'Disgust', 6: 'Anger'}
 
@@ -58,7 +66,7 @@ class RestDetector:
         ])
         img = img.resize((224, 224), Image.Resampling.NEAREST)
         img = ttransform(img)
-        img = torch.unsqueeze(img, 0).to('mps')
+        img = torch.unsqueeze(img, 0).to(self.torch_backend)
         return img
 
     def detect_emotion(self, image_data):
