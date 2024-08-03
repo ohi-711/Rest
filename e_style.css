@@ -1,0 +1,205 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(to right top, #a8e6cf, #d8dcff, #d5c7f0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+h1 {
+    color: #565676;
+    font-size: 3rem;
+    opacity: 0.8;
+}
+
+h2 {
+    color: #565676;
+    opacity: 0.8;
+}
+
+h3 {
+    color: #565676;
+    opacity: 0.8;
+}
+
+p {
+    color: #658ec6;
+    opacity: 0.8;
+    font-size: 120%;
+}
+
+.glass {
+    display: flex;
+    flex-direction: row-reverse;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.411),
+        rgba(255, 255, 255, 0.404)
+    );
+    border-radius: 2rem;
+    z-index: 3;
+    backdrop-filter: blur(1rem);
+    display: flex;
+    width: 74%;
+    height: 85vh; /* Change this if you want a different height */
+    min-height: 80vh;
+}
+
+.circle1, .circle2 {
+    background: linear-gradient(
+        to right bottom,
+        #c38d94c2,
+        #c38d9479
+    );
+    /* background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.8),
+        rgba(255,255,255,0.3)
+    ); */
+    height: 15rem;
+    width: 15rem;
+    position: absolute;
+    z-index: 2;
+    border-radius: 50%;
+}
+
+.circle1 {
+    top: 2%;
+    right: 10%;
+}
+
+.circle2 {
+    bottom: -4%;
+    left: 6%;
+}
+
+#pfp {
+    border-radius: 50%;
+    height: 4.8rem;
+    width: 5rem;
+}
+
+#horizontalLogo {
+    width: 150px;
+    height: auto;
+}
+
+.dashboard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 2rem;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.8),
+        rgba(255,255,255,0.3)
+    );
+    border-radius: 2rem;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.about {
+    flex: 2;
+}
+
+.join {
+    margin-top: 2rem;
+    background: linear-gradient(to right top, #65dfc9, #6cdbed, rgb(213, 199, 240));
+    border-radius: 2rem;
+    color: white;
+    padding: 1rem;
+}
+
+.join h2 {
+    color: white;
+}
+
+.title {
+    margin-bottom: 2rem;
+}
+
+.status {
+    margin-bottom: 2rem;
+}
+
+.about {
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Emotion form Input box and button */
+
+.emotion-form {
+    position: absolute;
+    bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+#userInput {
+    width: 515px;
+    height: 177px;
+    font-size: 1rem;
+    font-family: 'Quicksand', sans-serif;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none; /* Disable resizing */
+    margin: 10px 0 10px 0;
+}
+
+button {
+    font-size: 1.2rem;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #565676;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #434362;
+}
+
+/* 
+.card {
+    display: flex;
+    background: linear-gradient(to left top,
+        rgba(255,255,255,0.8),
+        rgba(255,255,255,0.5)
+    );
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    box-shadow: 6px 6px 30px rgba(107, 101, 101, 0.4);
+    justify-content: space-between;
+} */
