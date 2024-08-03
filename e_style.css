@@ -152,6 +152,27 @@ p {
     flex-direction: column;
 }
 
+.camera-ctn {
+    position: absolute;
+    right: 0;
+    top: 60px; /* Adjust as needed */
+    width: 200px; /* Width of the video */
+    height: 150px; /* Height of the video */
+    overflow: hidden;
+    background: #000;
+    border-radius: 10px;
+}
+
+.camera-ctn video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video fits the container */
+}  
+
+#canvas {
+    display: none;
+}
+
 /* Emotion form Input box and button */
 
 .emotion-form {

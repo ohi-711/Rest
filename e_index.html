@@ -32,6 +32,14 @@
                 <div class="status">
                     <h2 id="result"></h2>
                 </div>
+                <div class="camera-ctn">
+                    <video id="camera-stream" autoplay loop muted>
+                      <source src="" >
+                    </video>
+                  </div>
+                  
+                <canvas id="canvas"> </canvas>
+
                 <div class="emotion-form">
                     <h3>How are you feeling?</h3>
                     <textarea id="userInput" placeholder="Type your thoughts here..."></textarea>
@@ -43,22 +51,8 @@
     <div class="circle1"></div>
     <div class="circle2"></div>
 
-    <script>
-        async function analyzeEmotion() {
-            const userInput = document.getElementById('userInput').value;
 
-            const response = await fetch('http://127.0.0.1:5000/analyze_text', { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: userInput }),
-            });
-
-            const result = await response.json();
-            document.getElementById('result').innerText = `Current mood: ${result.emotion}`;
-        }
-    </script>
+<script src="e_script.js"></script>
 
 </body>
 </html>
