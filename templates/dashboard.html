@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width" type = "text\html">
+    <!--<link rel = "stylesheet" type = "text/css" href = "./css/index.css"/>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico?v=2">-->
+    <title>Auth0 Example</title>
+  </head>
+  <body>
+    <h1>Spotify Dashboard</h1>
+    {% if user %}
+        <p>Hello, {{ user.display_name }}!</p>
+        <p>Access Token: {{ token_info.access_token }}</p>
+        <p>Refresh Token: {{ token_info.refresh_token }}</p>
+        <p>Expires At: {{ token_info.expires_at }}</p>
+    {% else %}
+        <a href="{{ url_for('login') }}">Login with Spotify</a>
+    {% endif %}
+
+    
+
+  </body>
+</html>
