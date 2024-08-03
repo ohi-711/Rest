@@ -57,8 +57,8 @@ def callback():
 
     flask.session["user"] = token
 
-    if not userdb.user_exists("test"):
-        userdb.add_user("test",
+    if not userdb.user_exists(flask.session.get("user")['userinfo']['name']):
+        userdb.add_user(flask.session.get("user")['userinfo']['name'],
         {
             "spotify": None,
             "liked_songs": []
@@ -80,9 +80,9 @@ def dashboard():
 
     if flask.request.args.get("code"):
         auth_manager.get_access_token(flask.request.args.get("code"))
-        userdb.modify_user("test", {
+        userdb.modify_user(flask.session.get("user")['userinfo']['name'], {
             "spotify": sp.current_user()["id"],
-            "liked_songs": userdb.get_user("test")["liked_songs"]
+            "liked_songs": userdb.get_user(flask.session.get("user")['userinfo']['name'])["liked_songs"]
         })
         return flask.redirect("/dashboard")
 
@@ -90,11 +90,11 @@ def dashboard():
 
     for track in saved_tracks:
         print("HERE")
-        print(userdb.get_user("test"))
-        if track['track']["id"] not in userdb.get_user("test")["liked_songs"]:
-            userdb.modify_user("test", {
-                "spotify": userdb.get_user("test")["spotify"],
-                "liked_songs": userdb.get_user("test")["liked_songs"] + [track['track']["id"]]
+        print(userdb.get_user(flask.session.get("user")['userinfo']['name']))
+        if track['track']["id"] not in userdb.get_user(flask.session.get("user")['userinfo']['name'])["liked_songs"]:
+            userdb.modify_user(flask.session.get("user")['userinfo']['name'], {
+                "spotify": userdb.get_user(flask.session.get("user")['userinfo']['name'])["spotify"],
+                "liked_songs": userdb.get_user(flask.session.get("user")['userinfo']['name'])["liked_songs"] + [track['track']["id"]]
             })
             emotion = spapi.get_song_emotion(track['track']["id"])
 
@@ -109,7 +109,7 @@ def dashboard():
                 print("calming")
 
             songdb.save_db()
-
+    print(flask.session.get("user")['userinfo']['name'])
     return flask.render_template("dashboard.html", session = flask.session.get("user"))
 
 @app.route("/emotioninference", methods=['POST'])
