@@ -84,27 +84,6 @@ def logout():
         )
     )
 
-headers = {
-    'Authorization': f'Bearer {API_TOKEN}',
-    'Content-Type': 'application/json',
-}
-
-spotify_tokens = {
-    'access_token': 'ACCESS_TOKEN_FROM_SPOTIFY',
-    'refresh_token': 'REFRESH_TOKEN_FROM_SPOTIFY',
-}
-
-response = requests.patch(
-    f'https://' + env.get("AUTH0_DOMAIN") + '/api/v2/users/' + session.get("user")["userinfo"]['sub'],
-    json={'app_metadata': spotify_tokens},
-    headers=headers,
-)
-
-if response.status_code == 200:
-    print("Spotify tokens successfully stored.")
-else:
-    print(f"Failed to store tokens. Status code: {response.status_code}")
-
 # Run Flask app
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=env.get("PORT", 3000))
