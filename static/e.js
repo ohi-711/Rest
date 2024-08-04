@@ -42,7 +42,7 @@ function captureImage() {
             }
 
             const result = await response.json();
-            console.log('Emotion:', result.emotion);         
+            console.log('Emotion:', result.emotion);
             cameraResult.innerText = `Camera mood: ${result.emotion}`;
         } catch (error) {
             console.error('Error:', error);
@@ -80,12 +80,21 @@ document.addEventListener('DOMContentLoaded', function() {
             playPauseBtn.textContent = 'Pause';
             playPauseBtn.classList.add('pause-btn');
             playPauseBtn.classList.remove('play-btn');
-            // Implement any additional play functionality here
+
+            const response = fetch('http://127.0.0.1:3000/start_playback', {
+                method: 'POST',
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+
         } else {
             playPauseBtn.textContent = 'Play';
             playPauseBtn.classList.add('play-btn');
             playPauseBtn.classList.remove('pause-btn');
-            // Implement any additional pause functionality here
+
         }
     });
 });

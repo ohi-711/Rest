@@ -10,9 +10,16 @@ import database
 import inference
 import flask_cors
 import openai
+import random
 
 if not dotenv.find_dotenv():
     raise RuntimeError("No .env file found")
+
+class EmotionSupport:
+    def __init__(self):
+        self.emotion = ""
+        self.emotion_override = ""
+
 
 detector = inference.RestDetector('torchscript_model_0_66_49_wo_gl.pth')
 
@@ -21,12 +28,15 @@ dotenv.load_dotenv()
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
 
+
+
 oai = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = './.flask_session/'
 flask_session.Session(app)
+
 
 auth = authlib.integrations.flask_client.OAuth(app)
 auth.register(
@@ -47,6 +57,11 @@ sp = spapi.get_spotify()
 
 userdb = database.UserDatabase("users.json")
 songdb = database.SongDatabase("songs.json")
+
+def get_emotion_support():
+    if 'emotion_support' not in flask.session:
+        flask.session['emotion_support'] = EmotionSupport()
+    return flask.session['emotion_support']
 
 @app.route("/login")
 def login():
@@ -92,9 +107,8 @@ def dashboard():
 
     saved_tracks = spapi.get_all_saved_tracks()
 
+
     for track in saved_tracks:
-        print("HERE")
-        print(userdb.get_user(flask.session.get("user")['userinfo']['name']))
         if track['track']["id"] not in userdb.get_user(flask.session.get("user")['userinfo']['name'])["liked_songs"]:
             userdb.modify_user(flask.session.get("user")['userinfo']['name'], {
                 "spotify": userdb.get_user(flask.session.get("user")['userinfo']['name'])["spotify"],
@@ -104,29 +118,43 @@ def dashboard():
 
             if emotion == "happy":
                 songdb.songs["happy"].append(track['track']["id"])
-                print("happy")
             elif emotion == "uplifting":
                 songdb.songs["uplifting"].append(track['track']["id"])
-                print("uplifting")
             else:
                 songdb.songs["calming"].append(track['track']["id"])
-                print("calming")
 
             songdb.save_db()
-    print(flask.session.get("user")['userinfo']['name'])
+
+    start_playback()
     return flask.render_template("dashboard.html", session = flask.session.get("user"))
 
 
 @app.route("/emotioninference", methods=['POST'])
 def emotioninference():
+    print((spapi.get_song_length())/1000)
+    print((spapi.check_song_time())/1000)
+    print(f"Time left: {(spapi.get_song_length() - spapi.check_song_time())/1000}")
+
+    if (spapi.get_song_length() - spapi.check_song_time())/1000 < 10 and (spapi.get_song_length() - spapi.check_song_time())/1000 > 5:
+        queue_next_song()
+
+
     file = flask.request.files['file']
     emotion = detector.detect_emotion(file)
-    print(f"Detected emotion: {emotion}")
+    ec = get_emotion_support()
+
+    if emotion in ["Neutral", "Joy"]:
+        ec.emotion = "happy"
+    elif emotion in ["Sadness", "Stressed"]:
+        ec.emotion = "uplifting"
+    else:
+        ec.emotion = "calming"
 
     return flask.jsonify({"emotion": emotion})
 
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
+    ec = get_emotion_support()
     data = flask.request.get_json()
     user_text = data['text']
 
@@ -141,33 +169,95 @@ def analyze_text():
         max_tokens=50
     )
 
-    print(response)
-
     analysis = response.choices[0].message.content
-    emotion = "Neutral"
+    emotion_override = "Neutral"
+    music = "happy"
 
     if any(keyword in analysis for keyword in ["sad", "down", "unhappy"]):
-        emotion = "Sadness"
+        emotion_override = "Sadness"
+        music = "uplifting"
     elif any(keyword in analysis for keyword in ["stressed", "anxious", "overwhelmed"]):
-        emotion = "Stressed"
+        emotion_override = "Stressed"
+        music = "calming"
     elif any(keyword in analysis for keyword in ["happy", "joyful", "excited"]):
-        emotion = "Joy"
+        emotion_override = "Joy"
     elif any(keyword in analysis for keyword in ["angry", "mad", "furious"]):
-        emotion = "Anger"
+        emotion_override = "Anger"
+        music = "calming"
     elif any(keyword in analysis for keyword in ["scared", "fearful", "afraid"]):
-        emotion = "Fear"
+        emotion_override = "Fear"
+        music = "calming"
     elif any(keyword in analysis for keyword in ["surprised", "amazed", "astonished"]):
-        emotion = "Surprise"
+        emotion_override = "Surprise"
+        music = "calming"
 
-    neutral_keywords = ["regular", "boring", "uneventful","nothing"]
-    if emotion == "neutral" and all(keyword in user_text.lower() for keyword in neutral_keywords):
-        emotion = "neutral"
+    ec.emotion_override = music
+    return flask.jsonify({"emotion": emotion_override})
 
-    return flask.jsonify({"emotion": emotion})
+@app.route('/start_playback', methods=['POST'])
+def start_playback():
+    ec = get_emotion_support()
+    # check there is at least one active device
+    devices = sp.devices()
+    print(devices)
+
+    active_device = False
+
+    for device in devices['devices']:
+        if device['is_active']:
+            active_device = True
+            break
+
+    if not active_device:
+        return flask.jsonify({"status": "error", "message": "No active device found"})
+
+    if ec.emotion_override != "":
+        songType = ec.emotion_override
+    else:
+        songType = ec.emotion
+
+    if songType == "happy":
+        sp.start_playback(uris=["spotify:track:" + songdb.songs["happy"][random.randint(0, len(songdb.songs["happy"]) - 1)]])
+    elif songType == "uplifting":
+        sp.start_playback(uris=["spotify:track:" + songdb.songs["uplifting"][random.randint(0, len(songdb.songs["uplifting"]) - 1)]])
+    else:
+        sp.start_playback(uris=["spotify:track:" + songdb.songs["calming"][random.randint(0, len(songdb.songs["calming"]) - 1)]])
+
+    return flask.jsonify({"status": "success"})
+
+def queue_next_song():
+    ec = get_emotion_support()
+
+    if ec.emotion_override != "":
+        songType = ec.emotion_override
+    else:
+        songType = ec.emotion
+
+    if songType == "happy":
+        print("CALLED", "spotify:track:", "HAPPY")
+    elif songType == "uplifting":
+        print("CALLED", "spotify:track:", "UPLIFTING")
+    else:
+        print("CALLED", "spotify:track:", "CALMING")
+
+    if songType == "happy":
+        spapi.the_add_to_queue("spotify:track:" + songdb.songs["happy"][random.randint(0, len(songdb.songs["happy"]) - 1)])
+    elif songType == "uplifting":
+        spapi.the_add_to_queue("spotify:track:" + songdb.songs["uplifting"][random.randint(0, len(songdb.songs["uplifting"]) - 1)])
+    else:
+        spapi.the_add_to_queue("spotify:track:" + songdb.songs["calming"][random.randint(0, len(songdb.songs["calming"]) - 1)])
+
+    return flask.jsonify({"status": "success"})
+
+
+
+
 
 @app.route('/')
 def index():
     return flask.render_template("homepage.html")
 
+
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
+

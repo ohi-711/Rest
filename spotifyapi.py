@@ -54,6 +54,15 @@ class SpotifyAPI:
     def start_playback(self, uris):
         self.spotify.start_playback(uris=uris)
 
-    def add_to_queue(self, uri):
+    def the_add_to_queue(self, uri):
+        print("CALLED", uri)
         self.spotify.add_to_queue(uri)
+
+    def check_song_time(self):
+        return self.spotify.current_playback()['progress_ms']
+
+    def get_song_length(self, track_id = None):
+        if track_id is not None:
+            return self.spotify.audio_features(track_id)[0]['duration_ms']
+        return self.spotify.current_playback()['item']['duration_ms']
 
