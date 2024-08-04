@@ -1,62 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rest</title>
-    <script src="https://kit.fontawesome.com/f6bad249bc.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-</head>
-<body>
-    <main>
-        <section class="glass">
-            <div class="dashboard">
-                <div class="user">
-                    <img src="./images/dogatar.jpg" alt="" id="pfp"/>
-                </div>
+<html lang = "en">
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width" type = "text\html">
+    <!--<link rel = "stylesheet" type = "text/css" href = "./css/index.css"/>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico?v=2">-->
+    <title>Auth0 Example</title>
+  </head>
+  <body>
+    <h1>Spotify Dashboard</h1>
+    {% if user %}
+        <p>Hello, {{ user.display_name }}!</p>
+        <p>Access Token: {{ token_info.access_token }}</p>
+        <p>Refresh Token: {{ token_info.refresh_token }}</p>
+        <p>Expires At: {{ token_info.expires_at }}</p>
+    {% else %}
+        <a href="{{ url_for('login') }}">Login with Spotify</a>
+    {% endif %}
 
-                <div class="camera-ctn">
-                    <video id="camera-stream" autoplay loop muted>
-                      <source src="" >
-                    </video>
-                </div>
+    
 
-                <button id="playPauseBtn">Play</button>
-
-                <!-- <div class="join">
-                    <h2>Showcase your dog!</h2>
-                    <i class="fas fa-paw" style="font-size:55px;"></i>
-                </div> -->
-            </div>
-            <div class="about">
-                <div class="title">
-                    <img src="/static/images/quarterRest.png" alt="" id="horizontalLogo">
-                    <h3>Tune in to your emotions, tune out the stress</h2>
-                </div>
-                <div class="status">
-                    <h2 id="result"></h2>
-                    <h2 id="camera-result"></h2>
-                </div>
-                <canvas id="canvas"> </canvas>
-
-                <div class="emotion-form">
-                    <h3>How are you feeling, {{session.userinfo.nickname}}?</h3>
-                    <textarea id="userInput" placeholder="Type your thoughts here..."></textarea>
-                    <button onclick="analyzeEmotion()">Submit</button>
-                </div>
-            </div>
-        </section>
-    </main>
-    <div class="circle1"></div>
-    <div class="circle2"></div>
-
-
-<script src="{{ url_for('static', filename='e.js') }}"></script>
-
-</body>
+  </body>
 </html>
