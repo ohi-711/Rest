@@ -42,7 +42,7 @@ function captureImage() {
             }
 
             const result = await response.json();
-            console.log('Emotion:', result.emotion); // Log the emotion returned by the backend
+            console.log('Emotion:', result.emotion);         
             cameraResult.innerText = `Camera mood: ${result.emotion}`;
         } catch (error) {
             console.error('Error:', error);

@@ -18,18 +18,15 @@
             <div class="dashboard">
                 <div class="user">
                     <img src="./images/dogatar.jpg" alt="" id="pfp"/>
-
                 </div>
 
-                <div class="status">
-                    <h2 id="result"></h2>
-                    <h2 id="camera-result"></h2>
-                </div>
                 <div class="camera-ctn">
                     <video id="camera-stream" autoplay loop muted>
                       <source src="" >
                     </video>
                 </div>
+
+                <button onclick="">Play</button>
 
                 <!-- <div class="join">
                     <h2>Showcase your dog!</h2>
@@ -38,11 +35,13 @@
             </div>
             <div class="about">
                 <div class="title">
-                    <img src="{{ url_for('static', filename='images/quarterRest.jpg') }}" alt="" id="horizontalLogo">
-
+                    <img src="/static/images/quarterRest.png" alt="" id="horizontalLogo">
                     <h3>Tune in to your emotions, tune out the stress</h2>
                 </div>
-
+                <div class="status">
+                    <h2 id="result"></h2>
+                    <h2 id="camera-result"></h2>
+                </div>
                 <canvas id="canvas"> </canvas>
 
                 <div class="emotion-form">
