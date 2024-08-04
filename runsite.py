@@ -78,8 +78,6 @@ def link_spotify():
 
 @app.route("/dashboard")
 def dashboard():
-    if not auth_manager.validate_token(cache_handler.get_cached_token()):
-        return flask.redirect("/link_spotify")
 
     if flask.request.args.get("code"):
         auth_manager.get_access_token(flask.request.args.get("code"))
@@ -89,6 +87,9 @@ def dashboard():
             "liked_songs": userdb.get_user(flask.session.get("user")['userinfo']['name'])["liked_songs"]
         })
         return flask.redirect("/dashboard")
+
+    if not auth_manager.validate_token(cache_handler.get_cached_token()):
+        return flask.redirect("/link_spotify")
 
     saved_tracks = spapi.get_all_saved_tracks()
 
