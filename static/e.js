@@ -2,6 +2,7 @@ const cameraVideoStream = document.getElementById('camera-stream');
 const canvas = document.getElementById('canvas');
 const canvasContext = canvas.getContext('2d');
 const cameraResult = document.getElementById('camera-result');
+const resultElement = document.getElementById('result'); // Added to reference the current mood element
 
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ video: true })) {
     navigator.mediaDevices
@@ -13,6 +14,19 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ video: true 
 }
 
 let uploading = false;
+
+function updateTextColor(emotion) {
+    const colorMap = {
+        Joy: 'yellow',
+        Sadness: 'blue',
+        Anger: 'red',
+        // Add more cases as needed
+    };
+    
+    const color = colorMap[emotion] || '#565676'; // Default color if emotion not found
+    cameraResult.style.color = color;
+    resultElement.style.color = color;
+}
 
 function captureImage() {
     if (uploading) return; // Prevent multiple requests
@@ -42,8 +56,9 @@ function captureImage() {
             }
 
             const result = await response.json();
-            console.log('Emotion:', result.emotion);         
+            console.log('Emotion:', result.emotion);
             cameraResult.innerText = `Camera mood: ${result.emotion}`;
+            updateTextColor(result.emotion); // Update text color based on mood
         } catch (error) {
             console.error('Error:', error);
         } finally {
@@ -66,7 +81,8 @@ async function analyzeEmotion() {
     });
 
     const result = await response.json();
-    document.getElementById('result').innerText = `Current mood: ${result.emotion}`;
+    resultElement.innerText = `Current mood: ${result.emotion}`;
+    updateTextColor(result.emotion); // Update text color based on mood
 }
 
 document.addEventListener('DOMContentLoaded', function() {
