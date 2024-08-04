@@ -17,10 +17,14 @@ let uploading = false;
 
 function updateTextColor(emotion) {
     const colorMap = {
-        Joy: 'yellow',
-        Sadness: 'blue',
-        Anger: 'red',
-        // Add more cases as needed
+        Neutral: '#565676',
+        Joy: '#dfad0a',
+        Sadness: '#1443a7',
+        Anger: '#b91e1e',
+        Fear: 'purple',
+        Disgust: 'green',
+        Surprise: 'pink',
+        Stressed: 'brown'
     };
     
     const color = colorMap[emotion] || '#565676'; // Default color if emotion not found
@@ -56,9 +60,13 @@ function captureImage() {
             }
 
             const result = await response.json();
-            console.log('Emotion:', result.emotion);
-            cameraResult.innerText = `Camera mood: ${result.emotion}`;
-            updateTextColor(result.emotion); // Update text color based on mood
+            if (result.emotion) {
+                console.log('Emotion:', result.emotion);
+                cameraResult.innerText = `Camera mood: ${result.emotion}`;
+                updateTextColor(result.emotion); // Update text color based on mood
+            } else {
+                cameraResult.innerText = ''; // Clear the cameraResult element
+            }
         } catch (error) {
             console.error('Error:', error);
         } finally {
