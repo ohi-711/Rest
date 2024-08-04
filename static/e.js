@@ -93,6 +93,35 @@ async function analyzeEmotion() {
     updateTextColor(result.emotion); // Update text color based on mood
 }
 
+async function fetchCurrentTrack() {
+    try {
+        const response = await fetch('http://127.0.0.1:3000/current_track');
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        if (data.error) {
+            console.error(data.error);
+            return;
+        }
+
+        console.log(data);
+
+        document.getElementById('album-cover').src = data.cover;
+        document.getElementById('track-name').textContent = data.title;
+        document.getElementById('artist-name').textContent = data.artist;
+    } catch (error) {
+        console.error('Error fetching current track:', error);
+    }
+}
+
+window.onload = function() {
+    fetchCurrentTrack();
+    setInterval(fetchCurrentTrack, 10000); // Fetch every 10 seconds to keep the information updated
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     const playPauseBtn = document.getElementById('playPauseBtn');
     let isPlaying = false;

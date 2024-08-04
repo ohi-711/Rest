@@ -72,3 +72,11 @@ class SpotifyAPI:
         except:
             return 0
 
+    def get_cover(self):
+        return self.spotify.current_playback()['item']['album']['images'][0]['url']
+
+    def get_title(self):
+        return self.spotify.current_playback()['item']['name']
+
+    def get_artist(self):
+        return self.spotify.current_playback()['item']['artists'][0]['name']

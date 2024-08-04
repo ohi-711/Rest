@@ -195,6 +195,19 @@ def analyze_text():
     ec.emotion_override = music
     return flask.jsonify({"emotion": emotion_override})
 
+@app.route('/current_track', methods=['GET'])
+def current_track():
+    current_playback = sp.current_playback()
+    if current_playback and current_playback['item']:
+        track_info = {
+            'cover': spapi.get_cover(),
+            'title': spapi.get_title(),
+            'artist': spapi.get_artist()
+        }
+        return flask.jsonify(track_info)
+    else:
+        return flask.jsonify({'error': 'No track currently playing'}), 404
+
 @app.route('/start_playback', methods=['POST'])
 def start_playback():
     ec = get_emotion_support()
