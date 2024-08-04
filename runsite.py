@@ -28,6 +28,8 @@ dotenv.load_dotenv()
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
 
+ec = EmotionSupport()
+
 
 
 oai = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -68,6 +70,7 @@ def login():
     return auth.auth0.authorize_redirect(
         redirect_uri=flask.url_for("callback", _external=True)
         )
+
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
@@ -142,7 +145,6 @@ def emotioninference():
 
     file = flask.request.files['file']
     emotion = detector.detect_emotion(file)
-    ec = get_emotion_support()
 
     if emotion in ["Neutral", "Joy"]:
         ec.emotion = "happy"
@@ -155,7 +157,6 @@ def emotioninference():
 
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
-    ec = get_emotion_support()
     data = flask.request.get_json()
     user_text = data['text']
 
@@ -197,7 +198,6 @@ def analyze_text():
 
 @app.route('/start_playback', methods=['POST'])
 def start_playback():
-    ec = get_emotion_support()
     # check there is at least one active device
     devices = sp.devices()
     print(devices)
@@ -227,7 +227,6 @@ def start_playback():
     return flask.jsonify({"status": "success"})
 
 def queue_next_song():
-    ec = get_emotion_support()
 
     if ec.emotion_override != "":
         songType = ec.emotion_override
