@@ -1,6 +1,7 @@
 const cameraVideoStream = document.getElementById('camera-stream');
 const canvas = document.getElementById('canvas');
 const canvasContext = canvas.getContext('2d');
+const cameraResult = document.getElementById('camera-result');
 
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ video: true })) {
     navigator.mediaDevices
@@ -42,6 +43,7 @@ function captureImage() {
 
             const result = await response.json();
             console.log('Emotion:', result.emotion); // Log the emotion returned by the backend
+            cameraResult.innerText = `Camera mood: ${result.emotion}`;
         } catch (error) {
             console.error('Error:', error);
         } finally {

@@ -153,7 +153,7 @@ p {
 }
 
 .camera-ctn {
-    position: absolute;
+    /* position: absolute; */
     right: 0;
     top: 60px; /* Adjust as needed */
     width: 200px; /* Width of the video */

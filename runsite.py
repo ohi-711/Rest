@@ -144,20 +144,20 @@ def analyze_text():
     print(response)
 
     analysis = response.choices[0].message.content
-    emotion = "neutral"
+    emotion = "Neutral"
 
     if any(keyword in analysis for keyword in ["sad", "down", "unhappy"]):
-        emotion = "sadness"
+        emotion = "Sadness"
     elif any(keyword in analysis for keyword in ["stressed", "anxious", "overwhelmed"]):
-        emotion = "stressed"
+        emotion = "Stressed"
     elif any(keyword in analysis for keyword in ["happy", "joyful", "excited"]):
-        emotion = "happy"
+        emotion = "Joy"
     elif any(keyword in analysis for keyword in ["angry", "mad", "furious"]):
-        emotion = "anger"
+        emotion = "Anger"
     elif any(keyword in analysis for keyword in ["scared", "fearful", "afraid"]):
-        emotion = "fear"
+        emotion = "Fear"
     elif any(keyword in analysis for keyword in ["surprised", "amazed", "astonished"]):
-        emotion = "surprise"
+        emotion = "Surprise"
 
     neutral_keywords = ["regular", "boring", "uneventful","nothing"]
     if emotion == "neutral" and all(keyword in user_text.lower() for keyword in neutral_keywords):

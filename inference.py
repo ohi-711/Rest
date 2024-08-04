@@ -35,7 +35,7 @@ class RestDetector:
 
         self.pth_model = torch.jit.load(model_path).to(self.torch_backend)
         self.pth_model.eval()
-        self.DICT_EMO = {0: 'Neutral', 1: 'Happiness', 2: 'Sadness', 3: 'Surprise', 4: 'Fear', 5: 'Disgust', 6: 'Anger'}
+        self.DICT_EMO = {0: 'Neutral', 1: 'Joy', 2: 'Sadness', 3: 'Surprise', 4: 'Fear', 5: 'Disgust', 6: 'Anger'}
 
     def norm_coordinates(self, normalized_x, normalized_y, image_width, image_height):
         x_px = min(math.floor(normalized_x * image_width), image_width - 1)
