@@ -17,7 +17,7 @@
         <section class="glass">
             <div class="dashboard">
                 <div class="user">
-                    <img src="./images/quarterRest.png" alt="" id="horizontalLogo">
+                    <img src=" {{ url_for('static', filename='images/restCompleteTransparent.jpg') }}" alt="" id="horizontalLogo">
                     <h3>Tune in to your emotions, tune out the stress</h3>
                 </div>
             </div>
@@ -28,10 +28,10 @@
                     <p>Rest leverages cutting-edge technology to provide personalized music therapy sessions that adapt to your emotional state in real-time.
 
                         Using advanced facial recognition and text analysis, Rest identifies your current emotional state and recommends music tailored to your needs.
-                        </p>
+                    </p>
                 </div>
                 <div class="content">
-                    <a href="/login">
+                    <a href="/login" id="qsLoginBtn">
                         <button>Login</button>
                     </a>
                 </div>

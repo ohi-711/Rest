@@ -48,4 +48,12 @@ class SpotifyAPI:
             tracks.extend(results['items'])
         return tracks
 
+    def get_current_user_playing_track(self):
+        return self.spotify.current_user_playing_track()
+
+    def start_playback(self, uris):
+        self.spotify.start_playback(uris=uris)
+
+    def add_to_queue(self, uri):
+        self.spotify.add_to_queue(uri)
 
