@@ -119,7 +119,7 @@ async function fetchCurrentTrack() {
 
 window.onload = function() {
     fetchCurrentTrack();
-    setInterval(fetchCurrentTrack, 10000); // Fetch every 10 seconds to keep the information updated
+    setInterval(fetchCurrentTrack, 500); // Fetch song info every 
 };
 
 document.addEventListener('DOMContentLoaded', function() {

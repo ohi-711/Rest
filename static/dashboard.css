@@ -168,16 +168,23 @@ p {
     flex: 2;
 }
 
-.join {
-    margin-top: 2rem;
-    background: linear-gradient(to right top, #65dfc9, #6cdbed, rgb(213, 199, 240));
-    border-radius: 2rem;
-    color: white;
-    padding: 1rem;
+#now-playing {
+    margin-top: 3rem;
 }
 
-.join h2 {
-    color: white;
+#album-cover {
+    border-radius: 10px;
+}
+
+#track-name{
+    color: #434362;
+    font-weight: 600;
+}
+
+#artist-name{
+    color: #434362;
+    font-size: medium;
+    font-weight: 400;
 }
 
 .title {
