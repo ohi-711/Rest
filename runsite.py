@@ -21,6 +21,8 @@ dotenv.load_dotenv()
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
 
+oai = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = './.flask_session/'
@@ -128,7 +130,7 @@ def analyze_text():
 
     prompt = f"Analyze the following text for simple emotions such as happy, scared, angry. If no real emotion, then neutral: \"{user_text}\""
 
-    response = openai.ChatCompletion.create(
+    response = oai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You're a emotion therapist."},
@@ -137,8 +139,9 @@ def analyze_text():
         max_tokens=50
     )
 
-    analysis = response.choices[0].message['content'].strip()
+    print(response)
 
+    analysis = response.choices[0].message.content
     emotion = "neutral"
 
     if any(keyword in analysis for keyword in ["sad", "down", "unhappy"]):
