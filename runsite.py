@@ -83,6 +83,7 @@ def dashboard():
 
     if flask.request.args.get("code"):
         auth_manager.get_access_token(flask.request.args.get("code"))
+        print("YES YES YES")
         userdb.modify_user(flask.session.get("user")['userinfo']['name'], {
             "spotify": sp.current_user()["id"],
             "liked_songs": userdb.get_user(flask.session.get("user")['userinfo']['name'])["liked_songs"]
