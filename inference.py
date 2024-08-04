@@ -1,3 +1,6 @@
+# Partially adapted from https://github.com/ElenaRyumina/EMO-AffectNetModel/blob/main/check_backbone_models_by_webcam.ipynb
+# License: MIT
+
 import cv2
 import mediapipe as mp
 import math
