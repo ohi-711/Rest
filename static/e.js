@@ -4,7 +4,7 @@ const canvasContext = canvas.getContext('2d');
 const cameraResult = document.getElementById('camera-result');
 const resultElement = document.getElementById('result'); // Added to reference the current mood element
 
-var songnum;
+var songnum = 100;
 var lastsong;
 var currentMood;
 
@@ -93,9 +93,11 @@ async function analyzeEmotion() {
     });
 
     const result = await response.json();
-    currentMood = result.emotion;
-    resultElement.innerText = `Current mood: ${result.emotion}`;
-    songnum =  0;
+    if(result.emotion != 'undefined'){
+        currentMood = result.emotion;
+        resultElement.innerText = `Current mood: ${result.emotion}`;
+        songnum =  0;
+    }
     updateTextColor(result.emotion); // Update text color based on mood
 }
 
