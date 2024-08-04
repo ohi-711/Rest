@@ -68,3 +68,24 @@ async function analyzeEmotion() {
     const result = await response.json();
     document.getElementById('result').innerText = `Current mood: ${result.emotion}`;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    let isPlaying = false;
+
+    playPauseBtn.addEventListener('click', function() {
+        isPlaying = !isPlaying;
+
+        if (isPlaying) {
+            playPauseBtn.textContent = 'Pause';
+            playPauseBtn.classList.add('pause-btn');
+            playPauseBtn.classList.remove('play-btn');
+            // Implement any additional play functionality here
+        } else {
+            playPauseBtn.textContent = 'Play';
+            playPauseBtn.classList.add('play-btn');
+            playPauseBtn.classList.remove('pause-btn');
+            // Implement any additional pause functionality here
+        }
+    });
+});
