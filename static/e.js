@@ -4,6 +4,10 @@ const canvasContext = canvas.getContext('2d');
 const cameraResult = document.getElementById('camera-result');
 const resultElement = document.getElementById('result'); // Added to reference the current mood element
 
+var songnum;
+var lastsong;
+var currentMood;
+
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ video: true })) {
     navigator.mediaDevices
         .getUserMedia({ video: true })
@@ -60,12 +64,12 @@ function captureImage() {
             }
 
             const result = await response.json();
-            if (result.emotion) {
+            if (result.emotion && songnum >= 2) {
                 console.log('Emotion:', result.emotion);
-                cameraResult.innerText = `Camera mood: ${result.emotion}`;
+                resultElement.innerText = `Current mood: ${result.emotion}`;
                 updateTextColor(result.emotion); // Update text color based on mood
             } else {
-                cameraResult.innerText = ''; // Clear the cameraResult element
+                resultElement.innerText = `Current mood: ${currentMood}`; // Clear the cameraResult element
             }
         } catch (error) {
             console.error('Error:', error);
@@ -89,7 +93,9 @@ async function analyzeEmotion() {
     });
 
     const result = await response.json();
+    currentMood = result.emotion;
     resultElement.innerText = `Current mood: ${result.emotion}`;
+    songnum =  0;
     updateTextColor(result.emotion); // Update text color based on mood
 }
 
@@ -108,6 +114,11 @@ async function fetchCurrentTrack() {
         }
 
         console.log(data);
+
+        if(data.title != lastsong){
+            lastsong = data.title;
+            songnum ++;
+        }
 
         document.getElementById('album-cover').src = data.cover;
         document.getElementById('track-name').textContent = data.title;
