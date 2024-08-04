@@ -135,8 +135,9 @@ def emotioninference():
     print((spapi.check_song_time())/1000)
     print(f"Time left: {(spapi.get_song_length() - spapi.check_song_time())/1000}")
 
-    if (spapi.get_song_length() - spapi.check_song_time())/1000 < 10 and (spapi.get_song_length() - spapi.check_song_time())/1000 > 5:
-        queue_next_song()
+    if spapi.get_song_length() != 0 and spapi.check_song_time() != 0:
+        if (spapi.get_song_length() - spapi.check_song_time())/1000 < 10 and (spapi.get_song_length() - spapi.check_song_time())/1000 > 5:
+            queue_next_song()
 
 
     file = flask.request.files['file']
