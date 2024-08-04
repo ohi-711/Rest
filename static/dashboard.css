@@ -116,16 +116,52 @@ p {
     padding-right: 50px;
 }
 
-
-#pfp {
+.pfp {
     position: absolute;
-    top: 1.5rem; 
-    right: 1.5rem;
+    top: -0.5rem;
+    right: -10.5rem;
     border-radius: 50%;
     border: 2px solid;
     border-color: #c38d94;
     height: 3.5rem;
     width: 3.5rem;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 3rem;
+    right: -10.5rem;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.dropdown-content p {
+    font-size: 15px;
+    color: #434362;
+}
+
+.logout {
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 15px;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 .about {
@@ -169,7 +205,7 @@ p {
     overflow: hidden;
     background: #000;
     border-radius: 10px;
-    margin-top: 5rem;
+    margin-top: 4rem;
 }
 
 .camera-ctn video {

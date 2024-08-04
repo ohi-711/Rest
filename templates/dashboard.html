@@ -16,8 +16,15 @@
     <main>
         <section class="glass">
             <div class="dashboard">
-                <div class="user">
-                    <img src="/static/images/restComplete.png" alt="" id="pfp"/>
+                <div class="dropdown">
+                    <img src="/static/images/restComplete.png" alt="Profile picture" class="pfp"/>
+                    <div class="dropdown-content">
+                        <p>Hello, {{session.userinfo.nickname}}</p>
+                        <p>{{session.userinfo.email}}</p>
+                        <a href="/" id="qsLogoutBtn">
+                            <button class="logout">Logout</button>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="camera-ctn">
@@ -41,7 +48,7 @@
                 <canvas id="canvas"> </canvas>
 
                 <div class="emotion-form">
-                    <h3>How are you feeling, {{session.userinfo.nickname}}?</h3>
+                    <h3>How are you feeling?</h3>
                     <textarea id="userInput" placeholder="Type your thoughts here..."></textarea>
                     <button onclick="analyzeEmotion()">Submit</button>
                 </div>
