@@ -115,6 +115,7 @@ def dashboard():
     print(flask.session.get("user")['userinfo']['name'])
     return flask.render_template("dashboard.html", session = flask.session.get("user"))
 
+
 @app.route("/emotioninference", methods=['POST'])
 def emotioninference():
     file = flask.request.files['file']
@@ -165,7 +166,7 @@ def analyze_text():
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return flask.render_template("homepage.html")
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)

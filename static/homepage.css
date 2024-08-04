@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(to right top, #a8e6cf, #d8dcff, #d5c7f0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+h1 {
+    color: #565676;
+    font-size: 3rem;
+    opacity: 0.8;
+}
+
+h3 {
+    color: #565676;
+    opacity: 0.8;
+}
+
+p {
+    color: #658ec6;
+    opacity: 0.8;
+    font-size: 120%;
+}
+
+.glass {
+    display: flex;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.411),
+        rgba(255, 255, 255, 0.404)
+    );
+    border-radius: 2rem;
+    z-index: 3;
+    backdrop-filter: blur(1rem);
+    width: 74%;
+    height: 85vh;
+    min-height: 80vh;
+}
+
+.circle1, .circle2 {
+    background: linear-gradient(
+        to right bottom,
+        #c38d94c2,
+        #c38d9479
+    );
+    position: absolute;
+    z-index: 2;
+    border-radius: 50%;
+}
+
+.circle1 {
+    height: 20rem;
+    width: 20rem;
+    top: -5%;
+    left: 5%;
+}
+
+.circle2 {
+    height: 12rem;
+    width: 12rem;
+    bottom: 8%;
+    right: 8%;
+}
+
+.dashboard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.8),
+        rgba(255,255,255,0.3)
+    );
+    border-radius: 2rem;
+    padding: 2rem;
+}
+
+.about {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.title {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+button {
+    font-size: 1.2rem;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #565676;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #434362;
+}
